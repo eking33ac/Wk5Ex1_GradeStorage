@@ -37,7 +37,7 @@ namespace Wk5Ex1_GradeStorage
                 catch (Exception e)
                 {
                     // output an error message
-                    Console.WriteLine(anErrorMessage);
+                    Console.WriteLine("\n" + anErrorMessage);
                 }
             }
             // loop until returnValue has a different value
@@ -76,7 +76,7 @@ namespace Wk5Ex1_GradeStorage
                 catch (Exception e)
                 {
                     // output an error message
-                    Console.WriteLine(anErrorMessage);
+                    Console.WriteLine("\n" + anErrorMessage);
                 }
             }
             // loop until returnValue has a different value
@@ -149,7 +149,6 @@ namespace Wk5Ex1_GradeStorage
             // add the new grade to grade list
             gradeList.Add(newGrade);
 
-            // make the trurn value = grade list again?
 
             // return returnValue
             return returnValue;
@@ -157,7 +156,48 @@ namespace Wk5Ex1_GradeStorage
 
 
         // Method to remove a grade from the list
+        static List<double> RemoveGrade(List<double> gradeList, double gradeToRemove, string errorMessage = "Your grade wasn't in the list, so nothing was removed.\n")
+        {
+            // initialize return value
+            List<double> returnValue = gradeList;
 
+
+            // processing
+            bool validateGrade = false;
+
+            // for each loop to go through each grade in grade list
+            foreach (double grade in gradeList)
+            {
+                // check if the grade we are removing is equal to a grade in the grade list
+                if (gradeToRemove == grade)
+                {
+                    // the grade is validated as being in the list
+                    validateGrade = true;
+                    // jump out of the foreach loop
+                    break;
+                }
+            }
+
+            // check if the grade is validated as being in the list
+            if (validateGrade == true)
+            {
+                // add the new grade to grade list
+                gradeList.Remove(gradeToRemove);
+
+                // let the user know the grade has been removed
+                Console.WriteLine("Grade removed successfully!\n");
+            }
+            // if the grade is NOT in the list
+            else
+            {
+                // display error message
+                Console.WriteLine(errorMessage);
+            }
+
+
+            // return returnValue
+            return returnValue;
+        }
 
         // Method to display all grades
         static void DisplayGradeList(List<double> gradeList)
@@ -263,6 +303,7 @@ namespace Wk5Ex1_GradeStorage
             // Declare Variables
             // Input Variables
             double newGrade = Double.MinValue;        // declare a variable to change with each grade added. Initialize it to the min double value.
+            double removalGrade = Double.MinValue;        // declare a variable to hold the grade a user wants to remove. Initialize it to the min double value.
             int userSelection = Int32.MinValue;      // declare a variable to change with each gselection the user makes. Initialize it to the min int value.
 
             // Output Variables
@@ -338,7 +379,7 @@ namespace Wk5Ex1_GradeStorage
                             Console.Write("\n");
 
                             // check and make sure the double number is within range 0 and 100, if it is not output an error message and reset newGrade to minimum double value
-                            newGrade = CheckDoubleRange(newGrade, 0, 100, Double.MinValue);
+                            newGrade = CheckDoubleRange(newGrade, 0, 100, Double.MinValue, "Your input was invalid. Ensure you input a number between 1 and 100.\n");
                         }
                         // continue while newGrade holds the minimum double value
                         while (newGrade == Double.MinValue);
@@ -357,8 +398,24 @@ namespace Wk5Ex1_GradeStorage
 
                     // Run this case if selection = 2
                     case 2:
-                        // print the sum of all array elements
-                        
+                        // do while loop to get grade input and ensure it is valid
+                        do
+                        {
+                            // get the grade from the user make sure it is a valid double number
+                            removalGrade = HandleDoubleInput("Enter the grade to remove: ");
+                            // line break for readability
+                            Console.Write("\n");
+
+                            // check and make sure the double number is within range 0 and 100, if it is not output an error message and reset newGrade to minimum double value
+                            removalGrade = CheckDoubleRange(removalGrade, 0, 100, Double.MinValue, "Your input was invalid. Ensure you input a number between 1 and 100.\n");
+                        }
+                        // continue while newGrade holds the minimum double value
+                        while (removalGrade == Double.MinValue);
+
+
+                        // remove the new grade to the list of grades
+                        RemoveGrade(gradeList, removalGrade);
+
 
                         // Jump out of switch here.
                         break;
